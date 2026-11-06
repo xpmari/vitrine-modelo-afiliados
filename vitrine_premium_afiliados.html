@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Achadinhos | Vitrine Premium</title>
+    
+    <!-- Fonte Moderna Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração de Cores Personalizadas -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        creme: '#FDFBF7',
+                        rosaclaro: '#FDE8ED',
+                        rosachiclete: '#FF69B4',
+                        amarelomanteiga: '#FFF8D6',
+                        azulclaro: '#E1F2F7',
+                        textoescura: '#333333',
+                        textoclaro: '#777777'
+                    },
+                    boxShadow: {
+                        'app': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        'card': '0 4px 20px -5px rgba(0,0,0,0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Esconde a barra de rolagem nas categorias mas mantém funcionando */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        body {
+            background-color: #f5f5f5; /* Fundo cinza fora do 'app' no desktop */
+        }
+        
+        /* Efeito de clique no botão */
+        .btn-press:active {
+            transform: scale(0.95);
+        }
+        
+        /* Nova animação de destaque (Pulse) */
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); box-shadow: 0 2px 4px rgba(255, 105, 180, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 6px 12px rgba(255, 105, 180, 0.5); }
+        }
+        .animate-pulse-soft {
+            animation: pulseSoft 2s infinite ease-in-out;
+        }
+        
+        /* Shimmer (Skeleton Loading) */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite linear;
+        }
+
+        /* Scroll Reveal (Surgimento suave) */
+        .reveal-hidden {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased text-textoescura selection:bg-rosachiclete selection:text-white flex justify-center min-h-screen bg-gray-50">
+
+    <!-- Container Principal (Formato Celular) com Degradê Suave Premium -->
+    <main class="w-full max-w-md bg-gradient-to-br from-[#FFFBF0] via-[#FFF8D6] to-[#FDE8ED] min-h-screen shadow-app relative overflow-hidden flex flex-col mx-auto">
+        
+        <!-- Header (Perfil) -->
+        <header class="pt-10 pb-6 px-6 flex flex-col items-center text-center">
+            <!-- Círculo decorativo ao fundo -->
+            <div class="absolute top-[-50px] left-[-50px] w-40 h-40 bg-rosaclaro rounded-full blur-3xl opacity-60"></div>
+            <div class="absolute top-[20px] right-[-30px] w-32 h-32 bg-amarelomanteiga rounded-full blur-3xl opacity-60"></div>
+
+            <div class="relative z-10">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" alt="Foto de Perfil" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md mb-3 mx-auto">
+                <h1 class="text-xl font-bold">Camila Ferreira | Achadinhos</h1>
+                <p class="text-sm text-textoclaro mt-1 font-medium flex items-center justify-center gap-1">
+                    Meus achadinhos testados e aprovados ✨
+                </p>
+                
+                <!-- Redes Sociais -->
+                <div class="flex gap-3 justify-center mt-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-white shadow-card flex items-center justify-center text-rosachiclete hover:bg-rosaclaro transition">
+                        <i class="ph ph-instagram-logo text-xl"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white shadow-card flex items-center justify-center text-rosachiclete hover:bg-rosaclaro transition">
+                        <i class="ph ph-tiktok-logo text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Área Fixa de Busca e Filtros (Glassmorphism) -->
+        <div class="sticky top-0 z-20 bg-white/60 backdrop-blur-xl px-6 py-4 border-b border-white/50 shadow-sm">
+            <!-- Barra de Pesquisa -->
+            <div class="relative mb-4">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="ph ph-magnifying-glass text-textoclaro text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="O que você está procurando?" class="w-full bg-white border border-transparent focus:border-rosachiclete focus:ring-2 focus:ring-rosaclaro rounded-2xl py-3 pl-11 pr-4 text-sm font-medium outline-none shadow-card transition-all placeholder-textoclaro">
+                
+                <!-- Botão de limpar busca (escondido por padrão) -->
+                <button id="clearSearch" class="absolute inset-y-0 right-0 pr-4 flex items-center text-textoclaro hover:text-rosachiclete hidden">
+                    <i class="ph-fill ph-x-circle text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Pílulas de Categoria -->
+            <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1" id="categoryContainer">
+                <!-- Injetadas via JS -->
+            </div>
+        </div>
+
+        <!-- Grid de Produtos -->
+        <div class="p-6 flex-1">
+            
+            <!-- Skeleton Loader (Estado de Carregamento) -->
+            <div id="skeletonLoader" class="flex flex-col gap-4">
+                <!-- Skeleton Card 1 -->
+                <div class="bg-white/40 backdrop-blur-sm rounded-2xl p-3 flex gap-4 border border-white/50 shadow-sm">
+                    <div class="w-24 h-24 rounded-xl skeleton shrink-0"></div>
+                    <div class="flex flex-col flex-1 py-1 gap-2">
+                        <div class="h-3 w-1/3 skeleton rounded-full"></div>
+                        <div class="h-4 w-full skeleton rounded-full mt-1"></div>
+                        <div class="h-4 w-2/3 skeleton rounded-full"></div>
+                        <div class="mt-auto flex justify-between items-center">
+                            <div class="h-4 w-1/4 skeleton rounded-full"></div>
+                            <div class="h-6 w-1/3 skeleton rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Skeleton Card 2 -->
+                <div class="bg-white/40 backdrop-blur-sm rounded-2xl p-3 flex gap-4 border border-white/50 shadow-sm">
+                    <div class="w-24 h-24 rounded-xl skeleton shrink-0"></div>
+                    <div class="flex flex-col flex-1 py-1 gap-2">
+                        <div class="h-3 w-1/3 skeleton rounded-full"></div>
+                        <div class="h-4 w-full skeleton rounded-full mt-1"></div>
+                        <div class="h-4 w-2/3 skeleton rounded-full"></div>
+                        <div class="mt-auto flex justify-between items-center">
+                            <div class="h-4 w-1/4 skeleton rounded-full"></div>
+                            <div class="h-6 w-1/3 skeleton rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Skeleton Card 3 -->
+                <div class="bg-white/40 backdrop-blur-sm rounded-2xl p-3 flex gap-4 border border-white/50 shadow-sm">
+                    <div class="w-24 h-24 rounded-xl skeleton shrink-0"></div>
+                    <div class="flex flex-col flex-1 py-1 gap-2">
+                        <div class="h-3 w-1/3 skeleton rounded-full"></div>
+                        <div class="h-4 w-full skeleton rounded-full mt-1"></div>
+                        <div class="h-4 w-2/3 skeleton rounded-full"></div>
+                        <div class="mt-auto flex justify-between items-center">
+                            <div class="h-4 w-1/4 skeleton rounded-full"></div>
+                            <div class="h-6 w-1/3 skeleton rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- O Grid real começa escondido e é mostrado via JS após o skeleton -->
+            <div id="productGrid" class="flex flex-col gap-4 hidden">
+                <!-- Produtos Injetados via JS -->
+            </div>
+            
+            <!-- Mensagem de Nada Encontrado (Escondida por padrão) -->
+            <div id="emptyState" class="hidden flex-col items-center justify-center py-10 text-center">
+                <div class="w-20 h-20 bg-rosaclaro rounded-full flex items-center justify-center mb-4">
+                    <i class="ph ph-mask-sad text-4xl text-rosachiclete"></i>
+                </div>
+                <h3 class="font-semibold text-lg text-textoescura">Poxa, não achei!</h3>
+                <p class="text-sm text-textoclaro mt-1">Tente pesquisar com outro nome.</p>
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <footer class="text-center py-6 text-xs text-textoclaro font-medium">
+            Desenvolvido por <span class="text-rosachiclete">Sua Marca</span>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- BASE DE DADOS FAKE (O que você pode mostrar para a cliente) ---
+        // Na versão real com painel, esses dados viriam do Firebase/Planilha
+        const products = [
+            { id: 1, title: "Sérum Hidratante Glow", category: "Beleza", price: "R$ 89,90", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=300&q=80", link: "#", tag: "🔥 Mais Vendido", coupon: "CAMILA10" },
+            { id: 2, title: "Fone Bluetooth Noise Cancelling", category: "Eletrônicos", price: "R$ 149,00", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80", link: "#", tag: "📦 Frete Grátis" },
+            { id: 3, title: "Garrafa Térmica Minimalista", category: "Casa", price: "R$ 65,00", img: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=300&q=80", link: "#" },
+            { id: 4, title: "Kit Pincéis Profissionais", category: "Beleza", price: "R$ 45,90", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=300&q=80", link: "#", coupon: "BELEZA5" },
+        ];
+
+        const categories = ["Todos", "Casa", "Beleza", "Eletrônicos"];
+        
+        // --- ESTADOS ---
+        let currentCategory = "Todos";
+        let currentSearch = "";
+
+        // --- ELEMENTOS DO DOM ---
+        const categoryContainer = document.getElementById('categoryContainer');
+        const productGrid = document.getElementById('productGrid');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearch');
+        const emptyState = document.getElementById('emptyState');
+
+        // --- FUNÇÕES DE RENDERIZAÇÃO ---
+
+        // Configurando o Observer para o Scroll Reveal
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                    scrollObserver.unobserve(entry.target); // Para de observar após revelar
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
+
+        function renderCategories() {
+            categoryContainer.innerHTML = '';
+            categories.forEach(cat => {
+                const isActive = cat === currentCategory;
+                const btn = document.createElement('button');
+                
+                // Classes base e classes ativas
+                let classes = 'whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 btn-press ';
+                if (isActive) {
+                    classes += 'bg-rosachiclete text-white shadow-md';
+                } else {
+                    classes += 'bg-white text-textoclaro border border-rosaclaro/60 hover:bg-rosaclaro/30';
+                }
+                
+                btn.className = classes;
+                btn.textContent = cat;
+                
+                // Evento de clique na categoria
+                btn.onclick = () => {
+                    currentCategory = cat;
+                    renderCategories(); // Re-renderiza para atualizar a cor
+                    filterAndRenderProducts();
+                };
+                
+                categoryContainer.appendChild(btn);
+            });
+        }
+
+        function createProductCard(product) {
+            // Tag absoluta sobre a imagem
+            const tagHTML = product.tag ? `<div class="absolute top-0 left-0 bg-rosachiclete text-white text-[9px] font-bold px-2 py-1 rounded-br-xl rounded-tl-xl shadow-sm z-10">${product.tag}</div>` : '';
+            
+            // Área de Cupom interativa
+            const couponHTML = product.coupon ? `
+                <div class="mt-2 mb-1 flex items-center justify-between bg-rosaclaro/50 rounded-lg p-2 border border-rosaclaro/80 cursor-pointer hover:bg-rosaclaro/80 transition-colors" onclick="copyCoupon(event, '${product.coupon}', this)">
+                    <span class="text-[11px] font-semibold text-rosachiclete flex items-center gap-1">
+                        <i class="ph ph-ticket"></i> Cupom: ${product.coupon}
+                    </span>
+                    <span class="text-[9px] font-bold text-textoclaro bg-white px-2 py-1 rounded-md shadow-sm copy-text transition-all">Copiar</span>
+                </div>
+            ` : '';
+
+            // Note a classe 'reveal-hidden' e 'product-card' adicionadas no elemento <a> principal
+            return `
+                <a href="${product.link}" target="_blank" class="product-card reveal-hidden bg-white/80 backdrop-blur-sm rounded-2xl p-3 shadow-card flex flex-row items-stretch gap-4 btn-press transition-transform group border border-white hover:border-rosaclaro relative">
+                    
+                    <div class="w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-rosaclaro/20 relative">
+                        ${tagHTML}
+                        <img src="${product.img}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    
+                    <div class="flex flex-col flex-1 justify-between py-1 min-w-0">
+                        <div>
+                            <span class="text-[10px] font-bold text-rosachiclete uppercase tracking-wider mb-1 block">${product.category}</span>
+                            <h3 class="text-sm font-semibold leading-tight text-textoescura truncate whitespace-normal line-clamp-2">${product.title}</h3>
+                            ${couponHTML}
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="font-bold text-sm text-textoescura">${product.price}</span>
+                            <button class="bg-rosachiclete text-white font-semibold text-[10px] px-3 py-1.5 rounded-lg shadow-sm hover:bg-pink-600 transition-colors animate-pulse-soft">
+                                Ver oferta
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }
+
+        function filterAndRenderProducts() {
+            // Lógica de Filtro
+            const filtered = products.filter(product => {
+                const matchCategory = currentCategory === "Todos" || product.category === currentCategory;
+                const matchSearch = product.title.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchCategory && matchSearch;
+            });
+
+            // Lógica de Exibição
+            productGrid.innerHTML = '';
+            
+            if (filtered.length === 0) {
+                productGrid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+            } else {
+                productGrid.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+                
+                filtered.forEach(product => {
+                    productGrid.innerHTML += createProductCard(product);
+                });
+
+                // Observa os novos cards injetados para animação de scroll
+                document.querySelectorAll('.product-card').forEach(card => {
+                    scrollObserver.observe(card);
+                });
+            }
+        }
+
+        // --- EVENTOS DA BARRA DE BUSCA ---
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            
+            // Mostra ou esconde o botão de 'X'
+            if (currentSearch.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
+            }
+            
+            filterAndRenderProducts();
+        });
+
+        // --- FUNÇÃO DE COPIAR CUPOM ---
+        window.copyCoupon = function(e, couponCode, element) {
+            e.preventDefault(); // Impede que o clique abra o link do produto
+            e.stopPropagation(); // Impede que o clique bolhe para o card inteiro
+            
+            // Copia para a área de transferência
+            const textArea = document.createElement("textarea");
+            textArea.value = couponCode;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            textArea.remove();
+            
+            // Feedback visual no botão
+            const btn = element.querySelector('.copy-text');
+            if (btn) {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copiado! ✅';
+                btn.classList.add('bg-green-100', 'text-green-700');
+                btn.classList.remove('text-textoclaro', 'bg-white');
+                
+                // Retorna ao normal após 2 segundos
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-green-100', 'text-green-700');
+                    btn.classList.add('text-textoclaro', 'bg-white');
+                }, 2000);
+            }
+        };
+
+        // --- INICIALIZAÇÃO ---
+        window.onload = () => {
+            renderCategories();
+            
+            // Simula o tempo de rede (1.5 segundos) mostrando o Skeleton Loader
+            setTimeout(() => {
+                document.getElementById('skeletonLoader').classList.add('hidden');
+                document.getElementById('productGrid').classList.remove('hidden');
+                filterAndRenderProducts();
+            }, 1500);
+        };
+
+    </script>
+</body>
+</html>
